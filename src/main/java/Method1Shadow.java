@@ -6,6 +6,30 @@ public class Method1Shadow extends Method {
         super(original);
     }
 
+    static void print(int[][] board, int x, int y) {
+        System.out.println();
+        for (int i = 0; i < 9; i++) {
+            if (i % 3 == 0 && i != 0) {
+                System.out.println("----------|---------|----------");
+            }
+            for (int j = 0; j < 9; j++) {
+                if (j % 3 == 0) System.out.print("|");
+                int num = board[i][j];
+                if (num == 0) {
+                    System.out.print(" " + "\u001B[43m" + "-" + "\u001B[0m" + " ");
+                } else if (num < 0) {
+                    System.out.print(" " + "\u001B[34m" + "X" + "\u001B[0m" + " ");
+                } else if (i == y && j == x) {
+                    System.out.print(" " + "\u001B[31m" + num + "\u001B[0m" + " ");
+                } else {
+                    System.out.print(" " + num + " ");
+                }
+                if (j == 8) System.out.print("|");
+            }
+            System.out.println();
+        }
+    }
+
     private int[][] xMark(int[][] board, int x, int y) {
         board = Helper.clone(board);
         int num = board[y][x];
@@ -33,15 +57,11 @@ public class Method1Shadow extends Method {
             outer:
             for (int j = 0; j < 3; j++) {
                 blockId++;
-                int upY = i * 3;
-                int upX = j * 3;
-                int downY = upY + 2;
-                int downX = upX + 2;
-                int countZero = 0;
-                int foundY = -1;
-                int foundX = -1;
-                for (int y = upY; y <= downY; y++) {
-                    for (int x = upX; x <= downX; x++) {
+                int yNew = i * 3;
+                int xNew = j * 3;
+                int countZero = 0, foundY = -1, foundX = -1;
+                for (int y = yNew; y <= yNew + 2; y++) {
+                    for (int x = xNew; x <= xNew + 2; x++) {
                         if (board[y][x] == set) {
                             continue outer;
                         }
@@ -54,9 +74,9 @@ public class Method1Shadow extends Method {
                 }
                 if (countZero == 1) {
                     board[foundY][foundX] = set;
+                    print(board, foundX, foundY);
+                    System.out.println("###############################");
                     int[][] marked = xMark(board, foundX, foundY);
-                    System.out.println("+++++++++++++++++++++++++++++++++++++++");
-                    Helper.print(marked, foundX, foundY);
                     return findLonelyFields(marked, set);
                 }
             }
@@ -76,13 +96,18 @@ public class Method1Shadow extends Method {
 
     @Override
     public int[][] go() {
-        int[][] result = go(super.result);
-        this.result = result;
-        return result;
+        System.out.println("Method1Shadow.go");
+        Helper.printLine();
+        this.result = go(super.result);
+        return this.result;
     }
 
     private int[][] go(int[][] board) {
+        if (Helper.isFinished(board)) {
+            return board;
+        }
         for (int num = 1; num <= 9; num++) {
+            System.out.print(num == 1 ? num : " > " + num);
             int[][] boardMarked = Helper.clone(board);
             int[][] before = Helper.clone(board);
             for (int y = 0; y < 9; y++) {
@@ -92,8 +117,6 @@ public class Method1Shadow extends Method {
                     }
                 }
             }
-//            Helper.print(board);
-//            Helper.print(boardMarked);
             boardMarked = findLonelyFields(boardMarked, num);
             removeMinuses(boardMarked);
             boolean isEqual = Arrays.deepEquals(before, boardMarked);
@@ -101,6 +124,7 @@ public class Method1Shadow extends Method {
                 return go(boardMarked);
             }
         }
+        System.out.println();
         return board;
     }
 }

@@ -1,4 +1,5 @@
 public class Method3Backtrack {
+
     static boolean check(int[][] board) {
         Helper.printLine();
         System.out.println("Sudoku.check");

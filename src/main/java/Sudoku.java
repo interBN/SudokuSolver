@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Sudoku {
 
     static int[][] easy = {
@@ -81,7 +83,7 @@ public class Sudoku {
             {0, 0, 5, 2, 0, 6, 3, 0, 0}
     };
 
-    static int[][] medium = {
+    static int[][] medium5 = {
             {7, 0, 0, 0, 0, 0, 2, 0, 0},
             {4, 0, 2, 0, 0, 0, 0, 0, 3},
             {0, 0, 0, 2, 0, 1, 0, 0, 0},
@@ -100,7 +102,11 @@ public class Sudoku {
 
 //        check(medium);
 
-        go(medium);
+        int[][] go = go(Helper.clone(hard2));
+        Helper.printLine();
+        Helper.comparePrint(hard2, go);
+        Method3Backtrack.check(go);
+        Helper.comparePrint(hard2, go);
 
     }
 
@@ -114,17 +120,18 @@ public class Sudoku {
             return pattern;
         }
 
-//        System.out.println("+++++++++++++++++++++++++++++++++++++++");
-//        Helper.print(pattern);
-//        Method2.addObvious(pattern);
-//
-//        System.out.println("+++++++++++++++++++++++++++++++++++++++");
-//        Helper.print(pattern);
-//
-//        boolean isEqual = Arrays.deepEquals(original, pattern);
-//        if (!isEqual) {
-//            go(pattern);
-//        }
+        System.out.println("+++++++++++++++++++++++++++++++++++++++");
+        Helper.print(pattern);
+        Method2Possible.addObvious(pattern);
+
+        System.out.println("+++++++++++++++++++++++++++++++++++++++");
+        Helper.print(pattern);
+
+        boolean isEqual = Arrays.deepEquals(original, pattern);
+
+        if (!isEqual) {
+            go(pattern);
+        }
 
 
         return pattern;

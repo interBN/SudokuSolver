@@ -25,7 +25,7 @@ public class Method2Possible {
                 if (possible.length == 1) {
                     board[y][x] = possible[0];
                     System.out.println("found: " + possible[0]);
-                    Helper.print(board, x, y);
+                    Method1Shadow.print(board, x, y);
                     addObvious(board);
                     return;
                 }
