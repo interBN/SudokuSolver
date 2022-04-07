@@ -101,12 +101,16 @@ public class Sudoku {
 //        System.out.println("------------------------------------------------------------------------------------");
 
 //        check(medium);
+        int[][] m = medium5;
+        // int[][] go = go(Helper.clone(m));
 
-        int[][] go = go(Helper.clone(hard2));
+        int[][] go = new Method2Possible(m).go();
+
+
         Helper.printLine();
-        Helper.comparePrint(hard2, go);
-        Method3Backtrack.check(go);
-        Helper.comparePrint(hard2, go);
+        Helper.comparePrint(m, go);
+        // Method3Backtrack.check(go);
+        // Helper.comparePrint(m, go);
 
     }
 
@@ -114,27 +118,28 @@ public class Sudoku {
 
         int[][] original = Helper.clone(board);
 
-        int[][] pattern = new Method1Shadow(board).go();
+        int[][] step1 = new Method1Shadow(board).go();
 
-        if (Helper.isFinished(pattern)) {
-            return pattern;
+        if (Helper.isFinished(step1)) {
+            return step1;
         }
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++");
-        Helper.print(pattern);
-        Method2Possible.addObvious(pattern);
+        Helper.print(step1);
+
+        int[][] step2 = new Method2Possible(step1).go();
 
         System.out.println("+++++++++++++++++++++++++++++++++++++++");
-        Helper.print(pattern);
+        Helper.print(step2);
 
-        boolean isEqual = Arrays.deepEquals(original, pattern);
+        boolean isEqual = Arrays.deepEquals(original, step2);
 
         if (!isEqual) {
-            go(pattern);
+            go(step1);
         }
 
 
-        return pattern;
+        return step1;
     }
 
 

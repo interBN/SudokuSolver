@@ -6,7 +6,7 @@ public class Method3Backtrack {
         if (!Helper.isValid(board)) {
             System.out.println("Something is wrong with the input.");
         }
-        Method2Possible.addObvious(board);
+        new Method2Possible(board).go();
         return check(board, Helper.clone(board), 0, 0);
     }
 

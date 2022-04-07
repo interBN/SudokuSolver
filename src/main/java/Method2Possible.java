@@ -4,42 +4,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Method2Possible {
-    static void addObvious(int[][] board) {
-        if (Helper.isFinished(board)) {
-            Helper.printLine();
-            System.out.println("Finished result:");
-            Helper.print(board);
-            return;
-        }
-        Helper.printLine();
-        System.out.println("Sudoku.addObvious");
-        for (int y = 0; y < 9; y++) {
-            for (int x = 0; x < 9; x++) {
-                int num = board[y][x];
-                if (num != 0) {
-                    continue;
-                }
-                Helper.printLine();
-                int[] possible = getPossible(board, x, y);
-                if (possible.length == 1) {
-                    board[y][x] = possible[0];
-                    System.out.println("found: " + possible[0]);
-                    Method1Shadow.print(board, x, y);
-                    addObvious(board);
-                    return;
-                }
-            }
-        }
-        System.out.println("Unfinished result:");
-        Helper.print(board);
+public class Method2Possible extends Method {
+
+    private int iteration;
+
+    public Method2Possible(int[][] original) {
+        super(original);
+        this.iteration = 0;
     }
 
     static int[] getPossible(int[][] board, int x, int y) {
         if (board[y][x] != 0) {
             return new int[0];
         }
-        int[] possibleLine = getPossibleLine(board, x, y);
+        int[] possibleLine = getPossibleCross(board, x, y);
         int[] possibleBlock = getPossibleBlock(board, x, y);
         int[] intersection = Arrays.stream(possibleLine)
                 .distinct()
@@ -62,7 +40,7 @@ public class Method2Possible {
         return intersection;
     }
 
-    static int[] getPossibleLine(int[][] board, int x, int y) {
+    static int[] getPossibleCross(int[][] board, int x, int y) {
         if (board[y][x] != 0) {
             return new int[0];
         }
@@ -105,5 +83,44 @@ public class Method2Possible {
         Set<Integer> result = IntStream.rangeClosed(1, 9).boxed().collect(Collectors.toSet());
         result.removeAll(set);
         return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    int[][] go(int[][] board) {
+        if (Helper.isFinished(board)) {
+            Helper.printLine();
+            System.out.println("Method2Possible.addObvious: Return finished result. Iterations: " + this.iteration);
+            return board;
+        }
+        board = Helper.clone(board);
+
+        Helper.printLine();
+        System.out.println("Sudoku.addObvious");
+        iteration++;
+
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                int num = board[y][x];
+                if (num != 0) {
+                    continue;
+                }
+                Helper.printLine();
+                int[] possible = getPossible(board, x, y);
+                if (possible.length == 1) {
+                    board[y][x] = possible[0];
+                    System.out.println("found: " + possible[0]);
+                    Method1Shadow.print(board, x, y);
+                    return go(board);
+                }
+            }
+        }
+        Helper.printLine();
+        System.out.println("Method2Possible.addObvious: Return unfinished result. Iterations: " + this.iteration);
+        return board;
+    }
+
+    @Override
+    public int[][] go() {
+        super.result = go(super.original);
+        return super.result;
     }
 }
