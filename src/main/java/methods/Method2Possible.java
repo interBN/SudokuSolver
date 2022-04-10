@@ -1,3 +1,9 @@
+package methods;
+
+import helper.Helper;
+import helper.Printer;
+import helper.Validation;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -6,11 +12,8 @@ import java.util.stream.IntStream;
 
 public class Method2Possible extends Method {
 
-    private int iteration;
-
     public Method2Possible(int[][] original) {
         super(original);
-        this.iteration = 0;
     }
 
     static int[] getPossible(int[][] board, int x, int y) {
@@ -26,15 +29,15 @@ public class Method2Possible extends Method {
         //noinspection ConstantConditions
         if (true) {
             System.out.println("I'm here: [" + x + "," + y + "]=" + board[y][x]);
-            System.out.println("Sudoku.possibleLine");
+            System.out.println("possibleLine");
             System.out.println(Arrays.toString(possibleLine));
-            System.out.println("Sudoku.possibleBlock");
+            System.out.println("possibleBlock");
             System.out.println(Arrays.toString(possibleBlock));
-            System.out.println("Sudoku.possible");
+            System.out.println("possible");
             System.out.println(Arrays.toString(intersection));
         }
 //        if (intersection.length == 0) {
-//            Helper.print(board, x, y);
+//            helper.Helper.print(board, x, y);
 //            throw new Exception("Sonmething is wrong here!");
 //        }
         return intersection;
@@ -86,16 +89,16 @@ public class Method2Possible extends Method {
     }
 
     int[][] go(int[][] board) {
-        if (Helper.isFinished(board)) {
-            Helper.printLine();
-            System.out.println("Method2Possible.addObvious: Return finished result. Iterations: " + this.iteration);
+        if (Validation.isFinished(board)) {
+//            helper.Helper.printLine();
+            System.out.println("Method2Possible.go: Return finished result. Iterations: " + super.iteration);
             return board;
         }
         board = Helper.clone(board);
 
-        Helper.printLine();
-        System.out.println("Sudoku.addObvious");
-        iteration++;
+        Printer.printLine();
+        System.out.println("\u001B[34m" + "Method2Possible.go" + "\u001B[0m");
+        super.iteration++;
 
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
@@ -103,18 +106,18 @@ public class Method2Possible extends Method {
                 if (num != 0) {
                     continue;
                 }
-                Helper.printLine();
+                Printer.printLine();
                 int[] possible = getPossible(board, x, y);
                 if (possible.length == 1) {
                     board[y][x] = possible[0];
-                    System.out.println("found: " + possible[0]);
-                    Method1Shadow.print(board, x, y);
+                    System.out.println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
+                    Printer.printAndMarkPos(board, x, y);
                     return go(board);
                 }
             }
         }
-        Helper.printLine();
-        System.out.println("Method2Possible.addObvious: Return unfinished result. Iterations: " + this.iteration);
+        Printer.printLine();
+        System.out.println("Method2Possible.go: Return unfinished result. Iterations: " + super.iteration);
         return board;
     }
 

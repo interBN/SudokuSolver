@@ -1,3 +1,9 @@
+package methods;
+
+import helper.Helper;
+import helper.Printer;
+import helper.Validation;
+
 import java.util.Arrays;
 
 public class Method1Shadow extends Method {
@@ -6,28 +12,44 @@ public class Method1Shadow extends Method {
         super(original);
     }
 
-    static void print(int[][] board, int x, int y) {
-        System.out.println();
-        for (int i = 0; i < 9; i++) {
-            if (i % 3 == 0 && i != 0) {
-                System.out.println("----------|---------|----------");
-            }
-            for (int j = 0; j < 9; j++) {
-                if (j % 3 == 0) System.out.print("|");
-                int num = board[i][j];
-                if (num == 0) {
-                    System.out.print(" " + "\u001B[43m" + "-" + "\u001B[0m" + " ");
-                } else if (num < 0) {
-                    System.out.print(" " + "\u001B[34m" + "X" + "\u001B[0m" + " ");
-                } else if (i == y && j == x) {
-                    System.out.print(" " + "\u001B[31m" + num + "\u001B[0m" + " ");
-                } else {
-                    System.out.print(" " + num + " ");
-                }
-                if (j == 8) System.out.print("|");
-            }
-            System.out.println();
+    @Override
+    public int[][] go() {
+        System.out.println("\u001B[34m" + "Method1Shadow.go" + "\u001B[0m");
+        Printer.printLine();
+        this.result = go(super.result);
+        boolean finished = Validation.isFinished(this.result);
+        System.out.println("Method1Shadow.go: Return " +
+                (finished ? "finished" : "unfinished") +
+                " board. Iteration: " + iteration
+        );
+        return this.result;
+    }
+
+    private int[][] go(int[][] board) {
+        if (Validation.isFinished(board)) {
+            return board;
         }
+        super.iteration++;
+        for (int num = 1; num <= 9; num++) {
+            System.out.print(num == 1 ? num : " > " + num);
+            int[][] boardMarked = Helper.clone(board);
+            int[][] before = Helper.clone(board);
+            for (int y = 0; y < 9; y++) {
+                for (int x = 0; x < 9; x++) {
+                    if (boardMarked[y][x] == num) {
+                        boardMarked = xMark(boardMarked, x, y);
+                    }
+                }
+            }
+            boardMarked = findLonelyFields(boardMarked, num);
+            removeMinuses(boardMarked);
+            boolean isEqual = Arrays.deepEquals(before, boardMarked);
+            if (!isEqual) {
+                return go(boardMarked);
+            }
+        }
+        System.out.println();
+        return board;
     }
 
     private int[][] xMark(int[][] board, int x, int y) {
@@ -40,7 +62,7 @@ public class Method1Shadow extends Method {
                 board[y][x2] = num * -1;
             }
         }
-//        Helper.printLine();
+//        helper.Helper.printLine();
         for (int y2 = 0; y2 < 9; y2++) {
 //            System.out.println(board[y2][x]);
             if (board[y2][x] == 0) {
@@ -74,8 +96,9 @@ public class Method1Shadow extends Method {
                 }
                 if (countZero == 1) {
                     board[foundY][foundX] = set;
-                    print(board, foundX, foundY);
-                    System.out.println("###############################");
+                    System.out.println();
+                    Printer.printAndMarkPos(board, foundX, foundY);
+                    Printer.printLine();
                     int[][] marked = xMark(board, foundX, foundY);
                     return findLonelyFields(marked, set);
                 }
@@ -94,37 +117,5 @@ public class Method1Shadow extends Method {
         }
     }
 
-    @Override
-    public int[][] go() {
-        System.out.println("Method1Shadow.go");
-        Helper.printLine();
-        this.result = go(super.result);
-        return this.result;
-    }
 
-    private int[][] go(int[][] board) {
-        if (Helper.isFinished(board)) {
-            return board;
-        }
-        for (int num = 1; num <= 9; num++) {
-            System.out.print(num == 1 ? num : " > " + num);
-            int[][] boardMarked = Helper.clone(board);
-            int[][] before = Helper.clone(board);
-            for (int y = 0; y < 9; y++) {
-                for (int x = 0; x < 9; x++) {
-                    if (boardMarked[y][x] == num) {
-                        boardMarked = xMark(boardMarked, x, y);
-                    }
-                }
-            }
-            boardMarked = findLonelyFields(boardMarked, num);
-            removeMinuses(boardMarked);
-            boolean isEqual = Arrays.deepEquals(before, boardMarked);
-            if (!isEqual) {
-                return go(boardMarked);
-            }
-        }
-        System.out.println();
-        return board;
-    }
 }
