@@ -18,30 +18,27 @@ public class M3Backtrack extends Method {
 
     @Override
     int[][] solve2() {
-        printLine();
-
-        if (!Validation.isValid(super.original)) {
-            System.out.println("Something is wrong with the input.");
-        }
-        int[][] result = solve3(super.original, 0, 0);
+        this.printLine();
+        int[][] result = this.solve3(this.original, 0, 0);
         super.result = result;
         return result;
     }
 
     int[][] solve3(int[][] board, int x, int y) {
-        iteration++;
-        if (doPrint) {
-            comparePrint(original, board);
+        this.iteration++;
+        if (this.doPrint) {
+            this.getComparison(this.original, board);
         }
-        board = clone(board);
-        int[][] before = clone(board);
+        board = this.clone(board);
+        int[][] before = this.clone(board);
 
         if (Validation.isFinished(board)) {
+            this.isComplete = true;
             return board;
         }
-        if (doPrint) printLine();
+        if (this.doPrint) this.printLine();
 
-        println("I'm here: [" + x + "," + y + "]=" + board[y][x]);
+        this.println("I'm here: [" + x + "," + y + "]=" + board[y][x]);
 
         int newX = x + 1;
         int newY = y;
@@ -49,16 +46,16 @@ public class M3Backtrack extends Method {
             newX = 0;
             newY++;
         }
-        if (super.original[y][x] != 0) {
-            println("Skip!");
-            return solve3(board, newX, newY);
+        if (this.original[y][x] != 0) {
+            this.println("Skip!");
+            return this.solve3(board, newX, newY);
         }
         int[] possible;
 
-        possible = M2Possible.getPossible(board, x, y, doPrint);
+        possible = M2Possible.getPossible(board, x, y, this.doPrint);
 
         if (possible.length == 0) {
-            println("I'm here: [" + x + "," + y + "]=> No possibles: Go back.");
+            this.println("I'm here: [" + x + "," + y + "]=> No possibles: Go back.");
             return before;
         }
 
@@ -67,17 +64,18 @@ public class M3Backtrack extends Method {
             int checkNum = possible[i];
             board[y][x] = checkNum;
 
-            int[][] before2 = clone(board);
+            int[][] before2 = this.clone(board);
 
             if (i == 0) {
-                println("try: " + checkNum + " from: " + Arrays.toString(possible));
+                this.println("try: " + checkNum + " from: " + Arrays.toString(possible));
             } else {
-                println("try next: " + checkNum + " from: " + Arrays.toString(possible));
+                this.println("try next: " + checkNum + " from: " + Arrays.toString(possible));
             }
 
-            int[][] check = solve3(board, newX, newY);
+            int[][] check = this.solve3(board, newX, newY);
 
             if (Validation.isFinished(check)) {
+                this.isComplete = true;
                 return check;
             }
 
@@ -86,14 +84,14 @@ public class M3Backtrack extends Method {
                 return check;
             }
 
-            if (doPrint) printLine();
-            println("I'm back here: [" + x + "," + y + "]");
+            if (this.doPrint) this.printLine();
+            this.println("I'm back here: [" + x + "," + y + "]");
 //            if (checkNum != possible[possible.length - 1]) {
 //                println("=> try next number");
 //            }
         }
 
-        println("Go back 2.");
+        this.println("Go back 2.");
         return before;
     }
 }

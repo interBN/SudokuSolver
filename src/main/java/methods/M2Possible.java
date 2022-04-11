@@ -91,19 +91,19 @@ public class M2Possible extends Method {
 
     @Override
     int[][] solve2() {
-        super.result = solve3(super.original);
-        return super.result;
+        this.result = this.solve3(this.original);
+        return this.result;
     }
 
     int[][] solve3(int[][] board) {
         if (Validation.isFinished(board)) {
-//            helper.Helper.printLine();
-            println("Method2Possible.go: Return finished result. Iterations: " + super.iteration);
+            this.isComplete = true;
+            this.println("Method2Possible.go: Return finished result. Iterations: " + this.iteration);
             return board;
         }
-        board = clone(board);
+        board = this.clone(board);
 
-        super.iteration++;
+        this.iteration++;
 
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
@@ -111,18 +111,18 @@ public class M2Possible extends Method {
                 if (num != 0) {
                     continue;
                 }
-                printLine();
-                int[] possible = getPossible(board, x, y, super.print);
+                this.printLine();
+                int[] possible = getPossible(board, x, y, this.print);
                 if (possible.length == 1) {
                     board[y][x] = possible[0];
-                    println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
-                    printAndMarkPos(board, x, y);
-                    return solve3(board);
+                    this.println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
+                    this.printAndMarkPos(board, x, y);
+                    return this.solve3(board);
                 }
             }
         }
-        printLine();
-        println("Method2Possible.go: Return unfinished result. Iterations: " + super.iteration);
+        this.printLine();
+        this.println("Method2Possible.go: Return unfinished result. Iterations: " + this.iteration);
         return board;
     }
 }

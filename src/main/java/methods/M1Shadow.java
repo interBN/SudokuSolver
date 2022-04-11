@@ -16,51 +16,48 @@ public class M1Shadow extends Method {
 
     @Override
     public int[][] solve2() {
-        int[][] result = solve3(super.result);
+        int[][] result = this.solve3(super.result);
         super.result = result;
         return result;
     }
 
     private int[][] solve3(int[][] board) {
         if (Validation.isFinished(board)) {
+            this.isComplete = true;
             return board;
         }
-        super.iteration++;
+        this.iteration++;
         for (int num = 1; num <= 9; num++) {
-            print(String.valueOf(num == 1 ? num : " > " + num));
-            int[][] boardMarked = clone(board);
-            int[][] before = clone(board);
+            this.print(String.valueOf(num == 1 ? num : " > " + num));
+            int[][] boardMarked = this.clone(board);
+            int[][] before = this.clone(board);
             for (int y = 0; y < 9; y++) {
                 for (int x = 0; x < 9; x++) {
                     if (boardMarked[y][x] == num) {
-                        boardMarked = xMark(boardMarked, x, y);
+                        boardMarked = this.xMark(boardMarked, x, y);
                     }
                 }
             }
-            boardMarked = findLonelyFields(boardMarked, num);
-            removeMinuses(boardMarked);
+            boardMarked = this.findLonelyFields(boardMarked, num);
+            this.removeMinuses(boardMarked);
             boolean isEqual = Arrays.deepEquals(before, boardMarked);
             if (!isEqual) {
-                return solve3(boardMarked);
+                return this.solve3(boardMarked);
             }
         }
-        println("");
+        this.println("");
         return board;
     }
 
     private int[][] xMark(int[][] board, int x, int y) {
-        board = clone(board);
+        board = this.clone(board);
         int num = board[y][x];
-//        println("find num: " + num);
         for (int x2 = 0; x2 < 9; x2++) {
-//            println(board[y][x2]);
             if (board[y][x2] == 0) {
                 board[y][x2] = num * -1;
             }
         }
-//        helper.Helper.printLine();
         for (int y2 = 0; y2 < 9; y2++) {
-//            println(board[y2][x]);
             if (board[y2][x] == 0) {
                 board[y2][x] = num * -1;
             }
@@ -68,18 +65,16 @@ public class M1Shadow extends Method {
         return board;
     }
 
-    private int[][] findLonelyFields(int[][] board, int set) {
-        @SuppressWarnings("unused") int blockId = 0;
+    private int[][] findLonelyFields(int[][] board, int searchNum) {
         for (int i = 0; i < 3; i++) {
             outer:
             for (int j = 0; j < 3; j++) {
-                blockId++;
                 int yNew = i * 3;
                 int xNew = j * 3;
                 int countZero = 0, foundY = -1, foundX = -1;
                 for (int y = yNew; y <= yNew + 2; y++) {
                     for (int x = xNew; x <= xNew + 2; x++) {
-                        if (board[y][x] == set) {
+                        if (board[y][x] == searchNum) {
                             continue outer;
                         }
                         if (board[y][x] == 0) {
@@ -90,12 +85,12 @@ public class M1Shadow extends Method {
                     }
                 }
                 if (countZero == 1) {
-                    board[foundY][foundX] = set;
-                    println("");
-                    printAndMarkPos(board, foundX, foundY);
-                    printLine();
-                    int[][] marked = xMark(board, foundX, foundY);
-                    return findLonelyFields(marked, set);
+                    board[foundY][foundX] = searchNum;
+                    this.println("");
+                    this.printAndMarkPos(board, foundX, foundY);
+                    this.printLine();
+                    int[][] marked = this.xMark(board, foundX, foundY);
+                    return this.findLonelyFields(marked, searchNum);
                 }
             }
         }

@@ -6,9 +6,9 @@ import java.util.Set;
 public class Validation {
 
     public static boolean isFinished(int[][] board) {
-        for (int[] ints : board) {
-            for (int anInt : ints) {
-                if (anInt == 0) {
+        for (int[] line : board) {
+            for (int num : line) {
+                if (num == 0) {
                     return false;
                 }
             }

@@ -7,35 +7,35 @@ import java.util.Date;
 
 public abstract class Method {
 
+    public final String name;
     final int[][] original;
     final boolean print;
-
-    private final String name;
-
     public int iteration;
     public long duration;
+    public boolean isComplete;
     int[][] result;
-
-    public Method(int[][] original, String name) {
-        this(original, name, false);
-    }
 
     public Method(int[][] original, String name, boolean print) {
         this.name = name;
         this.original = original;
         this.result = original;
         this.iteration = 0;
-        this.duration = -1;
+        this.duration = 0;
         this.print = print;
+        this.isComplete = false;
     }
 
-    public static String comparePrint(int[][] original, int[][] result) { // prints the sudoku
-//        int found = 0;
-//        int open = 0;
+    abstract int[][] solve2();
+
+    String getComparison(int[][] original, int[][] result) {
+        final String SPACE = " ";
+        final String YELLOW = "\u001B[43m";
+        final String RED = "\u001B[31m";
+        final String RESET = "\u001B[0m";
         StringBuilder returner = new StringBuilder();
         for (int y = 0; y < 9; y++) {
             if (y % 3 == 0 && y != 0) {
-                returner.append("----------|---------|----------" + "\n");
+                returner.append("----------|---------|----------").append("\n");
             }
             for (int x = 0; x < 9; x++) {
                 if (x % 3 == 0) {
@@ -44,14 +44,12 @@ public abstract class Method {
                 int originalNum = original[y][x];
                 int resultNum = result[y][x];
                 if (originalNum != resultNum) {
-                    returner.append(" " + "\u001B[31m").append(resultNum).append("\u001B[0m").append(" ");
-//                    found++;
+                    returner.append(SPACE).append(RED).append(resultNum).append(RESET).append(SPACE);
                 } else {
                     if (resultNum == 0) {
-                        returner.append(" " + "\u001B[43m" + "-" + "\u001B[0m" + " ");
-//                        open++;
+                        returner.append(SPACE).append(YELLOW).append("-").append(RESET).append(SPACE);
                     } else {
-                        returner.append(" ").append(resultNum).append(" ");
+                        returner.append(SPACE).append(resultNum).append(SPACE);
                     }
                 }
                 if (x == 8) {
@@ -62,8 +60,6 @@ public abstract class Method {
                 returner.append("\n");
             }
         }
-//        System.out.println("found = " + found);
-//        System.out.println("open = " + open);
         return returner.toString();
     }
 
@@ -71,7 +67,65 @@ public abstract class Method {
         return Arrays.stream(original).map(int[]::clone).toArray(int[][]::new);
     }
 
-    abstract int[][] solve2();
+    public int[][] solve() {
+
+        Date startDate = new Date();
+
+        if (Validation.isFinished(this.original)) {
+            return this.original;
+        }
+
+        this.printLine();
+        System.out.println("\u001B[34m" + "Run " + this.name + "\u001B[0m");
+
+        int[][] result = this.solve2();
+        Date endDate = new Date();
+        this.duration = (int) ((endDate.getTime() - startDate.getTime()));
+        return result;
+    }
+
+    /**
+     * 1 -1 -1
+     * <p>
+     * 2 -1 -1
+     * <p>
+     * 3 -1 -1
+     *
+     * @return 6
+     */
+    public int countOpenFields() {
+        int open = 0;
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (this.result[y][x] == 0) {
+                    open++;
+                }
+            }
+        }
+        return open;
+    }
+
+    /**
+     * 1 -1 -1
+     * <p>
+     * 2 -1 -1
+     * <p>
+     * 3 -1 -1
+     *
+     * @return 3
+     */
+    public int countFoundFields() {
+        int found = 0;
+        for (int y = 0; y < 9; y++) {
+            for (int x = 0; x < 9; x++) {
+                if (this.result[y][x] != 0 && this.result[y][x] != this.original[y][x]) {
+                    found++;
+                }
+            }
+        }
+        return found;
+    }
+
 
     void printAndMarkPos(int[][] board, int x, int y) {
         if (this.print) {
@@ -98,21 +152,6 @@ public abstract class Method {
         }
     }
 
-    public int[][] solve() {
-
-        boolean finished = Validation.isFinished(this.original);
-        if (finished) return this.original;
-
-        Date startDate = new Date();
-        printLine();
-        System.out.println("\u001B[34m" + "Run " + name + "\u001B[0m");
-
-        int[][] result = solve2();
-        Date endDate = new Date();
-        duration = (int) ((endDate.getTime() - startDate.getTime()));
-        return result;
-    }
-
     void print(String s) {
         if (this.print) {
             System.out.print(s);
@@ -133,7 +172,6 @@ public abstract class Method {
 
     @Override
     public String toString() {
-        return name + "\n" +
-                comparePrint(original, result);
+        return this.getComparison(this.original, this.result);
     }
 }
