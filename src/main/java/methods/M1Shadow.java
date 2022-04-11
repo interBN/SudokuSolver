@@ -1,6 +1,5 @@
 package methods;
 
-import helper.Helper;
 import helper.Validation;
 
 import java.util.Arrays;
@@ -16,21 +15,21 @@ public class M1Shadow extends Method {
     }
 
     @Override
-    public int[][] go2() {
-        int[][] result = go3(super.result);
+    public int[][] solve2() {
+        int[][] result = solve3(super.result);
         super.result = result;
         return result;
     }
 
-    private int[][] go3(int[][] board) {
+    private int[][] solve3(int[][] board) {
         if (Validation.isFinished(board)) {
             return board;
         }
         super.iteration++;
         for (int num = 1; num <= 9; num++) {
             print(String.valueOf(num == 1 ? num : " > " + num));
-            int[][] boardMarked = Helper.clone(board);
-            int[][] before = Helper.clone(board);
+            int[][] boardMarked = clone(board);
+            int[][] before = clone(board);
             for (int y = 0; y < 9; y++) {
                 for (int x = 0; x < 9; x++) {
                     if (boardMarked[y][x] == num) {
@@ -42,7 +41,7 @@ public class M1Shadow extends Method {
             removeMinuses(boardMarked);
             boolean isEqual = Arrays.deepEquals(before, boardMarked);
             if (!isEqual) {
-                return go3(boardMarked);
+                return solve3(boardMarked);
             }
         }
         println("");
@@ -50,7 +49,7 @@ public class M1Shadow extends Method {
     }
 
     private int[][] xMark(int[][] board, int x, int y) {
-        board = Helper.clone(board);
+        board = clone(board);
         int num = board[y][x];
 //        println("find num: " + num);
         for (int x2 = 0; x2 < 9; x2++) {

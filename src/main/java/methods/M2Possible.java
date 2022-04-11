@@ -1,6 +1,5 @@
 package methods;
 
-import helper.Helper;
 import helper.Validation;
 
 import java.util.Arrays;
@@ -18,7 +17,6 @@ public class M2Possible extends Method {
     public M2Possible(int[][] original, boolean print) {
         super(original, M2Possible.class.getSimpleName(), print);
     }
-
 
     static int[] getPossible(int[][] board, int x, int y, boolean print) {
         if (board[y][x] != 0) {
@@ -92,18 +90,18 @@ public class M2Possible extends Method {
     }
 
     @Override
-    int[][] go2() {
-        super.result = go3(super.original);
+    int[][] solve2() {
+        super.result = solve3(super.original);
         return super.result;
     }
 
-    int[][] go3(int[][] board) {
+    int[][] solve3(int[][] board) {
         if (Validation.isFinished(board)) {
 //            helper.Helper.printLine();
             println("Method2Possible.go: Return finished result. Iterations: " + super.iteration);
             return board;
         }
-        board = Helper.clone(board);
+        board = clone(board);
 
         super.iteration++;
 
@@ -119,7 +117,7 @@ public class M2Possible extends Method {
                     board[y][x] = possible[0];
                     println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
                     printAndMarkPos(board, x, y);
-                    return go3(board);
+                    return solve3(board);
                 }
             }
         }

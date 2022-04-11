@@ -1,6 +1,5 @@
 package methods;
 
-import helper.Helper;
 import helper.Validation;
 
 import java.util.Arrays;
@@ -18,24 +17,24 @@ public class M3Backtrack extends Method {
     }
 
     @Override
-    int[][] go2() {
+    int[][] solve2() {
         printLine();
 
         if (!Validation.isValid(super.original)) {
             System.out.println("Something is wrong with the input.");
         }
-        int[][] result = go3(super.original, 0, 0);
+        int[][] result = solve3(super.original, 0, 0);
         super.result = result;
         return result;
     }
 
-    int[][] go3(int[][] board, int x, int y) {
+    int[][] solve3(int[][] board, int x, int y) {
         iteration++;
         if (doPrint) {
             comparePrint(original, board);
         }
-        board = Helper.clone(board);
-        int[][] before = Helper.clone(board);
+        board = clone(board);
+        int[][] before = clone(board);
 
         if (Validation.isFinished(board)) {
             return board;
@@ -52,7 +51,7 @@ public class M3Backtrack extends Method {
         }
         if (super.original[y][x] != 0) {
             println("Skip!");
-            return go3(board, newX, newY);
+            return solve3(board, newX, newY);
         }
         int[] possible;
 
@@ -68,7 +67,7 @@ public class M3Backtrack extends Method {
             int checkNum = possible[i];
             board[y][x] = checkNum;
 
-            int[][] before2 = Helper.clone(board);
+            int[][] before2 = clone(board);
 
             if (i == 0) {
                 println("try: " + checkNum + " from: " + Arrays.toString(possible));
@@ -76,7 +75,7 @@ public class M3Backtrack extends Method {
                 println("try next: " + checkNum + " from: " + Arrays.toString(possible));
             }
 
-            int[][] check = go3(board, newX, newY);
+            int[][] check = solve3(board, newX, newY);
 
             if (Validation.isFinished(check)) {
                 return check;

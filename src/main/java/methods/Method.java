@@ -2,13 +2,16 @@ package methods;
 
 import helper.Validation;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public abstract class Method {
 
-    final String name;
     final int[][] original;
     final boolean print;
+
+    private final String name;
+
     public int iteration;
     public long duration;
     int[][] result;
@@ -64,7 +67,11 @@ public abstract class Method {
         return returner.toString();
     }
 
-    abstract int[][] go2();
+    int[][] clone(int[][] original) {
+        return Arrays.stream(original).map(int[]::clone).toArray(int[][]::new);
+    }
+
+    abstract int[][] solve2();
 
     void printAndMarkPos(int[][] board, int x, int y) {
         if (this.print) {
@@ -91,7 +98,7 @@ public abstract class Method {
         }
     }
 
-    public int[][] go() {
+    public int[][] solve() {
 
         boolean finished = Validation.isFinished(this.original);
         if (finished) return this.original;
@@ -100,7 +107,7 @@ public abstract class Method {
         printLine();
         System.out.println("\u001B[34m" + "Run " + name + "\u001B[0m");
 
-        int[][] result = go2();
+        int[][] result = solve2();
         Date endDate = new Date();
         duration = (int) ((endDate.getTime() - startDate.getTime()));
         return result;

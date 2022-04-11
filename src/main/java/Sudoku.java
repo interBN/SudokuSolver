@@ -1,4 +1,3 @@
-import helper.Helper;
 import helper.Validation;
 import methods.M1Shadow;
 import methods.M2Possible;
@@ -10,63 +9,52 @@ import java.util.List;
 
 public class Sudoku {
 
-    List<Method> methods;
+    private final List<Method> methods;
 
     public Sudoku() {
         this.methods = new ArrayList<>();
     }
 
-    public static void main(String[] args) {
-        int[][] original = SudokuBoards.evil3;
-        Sudoku sudoku = new Sudoku();
-        @SuppressWarnings("unused")
-        int[][] result = sudoku.go(Helper.clone(original));
+    public int[][] solve(int[][] board) {
 
-        long totalTime = 0;
-        for (int i = 0; i < sudoku.methods.size(); i++) {
-            System.out.println("----------------------------------------------------");
-            System.out.println("Step: " + (i + 1) + "/" + sudoku.methods.size());
-            System.out.println("Runs: " + sudoku.methods.get(i).iteration);
-            long duration = sudoku.methods.get(i).duration;
-            System.out.println("Time: " + duration + " ms");
-            System.out.println("Meth: " + sudoku.methods.get(i));
-            totalTime += duration;
-        }
-        System.out.println("----------------------------------------------------");
-        System.out.println("Total time: " + totalTime + " ms");
-    }
-
-
-    private int[][] go(int[][] board) {
-
-//        int[][] original = Helper.clone(board);
-
+        // step 1
         Method method1Shadow = new M1Shadow(board);
         this.methods.add(method1Shadow);
-
-        int[][] step1 = method1Shadow.go();
-
+        int[][] step1 = method1Shadow.solve();
         if (Validation.isFinished(step1)) {
             return step1;
         }
 
+        // step 2
         Method method2Possible = new M2Possible(step1);
         this.methods.add(method2Possible);
-
-        int[][] step2 = method2Possible.go();
-
+        int[][] step2 = method2Possible.solve();
         if (Validation.isFinished(step2)) {
             return step2;
         }
 
-//        boolean isEqual = Arrays.deepEquals(step1, step2);
-//        if (!isEqual) {
-//            return go(step2);
-//        }
-
+        // step 3
         Method method3Backtrack = new M3Backtrack(step2);
         methods.add(method3Backtrack);
+        return method3Backtrack.solve();
+    }
 
-        return method3Backtrack.go();
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        long totalTime = 0;
+        final String BREAK = "\n";
+        final String line = "----------------------------------------------------" + BREAK;
+        for (int i = 0; i < this.methods.size(); i++) {
+            long duration = this.methods.get(i).duration;
+            totalTime += duration;
+            result.append(line)
+                    .append("Step: ").append(i + 1).append("/").append(this.methods.size()).append(BREAK)
+                    .append("Runs: ").append(this.methods.get(i).iteration).append(BREAK)
+                    .append("Time: ").append(duration).append(" ms").append(BREAK)
+                    .append("Meth: ").append(this.methods.get(i)).append(BREAK);
+        }
+        result.append(line).append("Total time: ").append(totalTime).append(" ms").append(BREAK);
+        return result.toString();
     }
 }
