@@ -1,7 +1,6 @@
 package methods;
 
 import helper.Helper;
-import helper.Printer;
 import helper.Validation;
 
 import java.util.Arrays;
@@ -10,13 +9,18 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Method2Possible extends Method {
+public class M2Possible extends Method {
 
-    public Method2Possible(int[][] original) {
-        super(original);
+    public M2Possible(int[][] original) {
+        this(original, false);
     }
 
-    static int[] getPossible(int[][] board, int x, int y) {
+    public M2Possible(int[][] original, boolean print) {
+        super(original, M2Possible.class.getSimpleName(), print);
+    }
+
+
+    static int[] getPossible(int[][] board, int x, int y, boolean print) {
         if (board[y][x] != 0) {
             return new int[0];
         }
@@ -26,14 +30,13 @@ public class Method2Possible extends Method {
                 .distinct()
                 .filter(j -> Arrays.stream(possibleBlock).anyMatch(i -> i == j))
                 .toArray();
-        //noinspection ConstantConditions
-        if (true) {
-            System.out.println("I'm here: [" + x + "," + y + "]=" + board[y][x]);
-            System.out.println("possibleLine");
+        if (print) {
+            String coordinate = "(" + x + "," + y + ")";
+            System.out.println(coordinate + ": possibleLine");
             System.out.println(Arrays.toString(possibleLine));
-            System.out.println("possibleBlock");
+            System.out.println(coordinate + ": possibleBlock");
             System.out.println(Arrays.toString(possibleBlock));
-            System.out.println("possible");
+            System.out.println(coordinate + ": possible");
             System.out.println(Arrays.toString(intersection));
         }
 //        if (intersection.length == 0) {
@@ -88,16 +91,20 @@ public class Method2Possible extends Method {
         return result.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    int[][] go(int[][] board) {
+    @Override
+    int[][] go2() {
+        super.result = go3(super.original);
+        return super.result;
+    }
+
+    int[][] go3(int[][] board) {
         if (Validation.isFinished(board)) {
 //            helper.Helper.printLine();
-            System.out.println("Method2Possible.go: Return finished result. Iterations: " + super.iteration);
+            println("Method2Possible.go: Return finished result. Iterations: " + super.iteration);
             return board;
         }
         board = Helper.clone(board);
 
-        Printer.printLine();
-        System.out.println("\u001B[34m" + "Method2Possible.go" + "\u001B[0m");
         super.iteration++;
 
         for (int y = 0; y < 9; y++) {
@@ -106,24 +113,18 @@ public class Method2Possible extends Method {
                 if (num != 0) {
                     continue;
                 }
-                Printer.printLine();
-                int[] possible = getPossible(board, x, y);
+                printLine();
+                int[] possible = getPossible(board, x, y, super.print);
                 if (possible.length == 1) {
                     board[y][x] = possible[0];
-                    System.out.println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
-                    Printer.printAndMarkPos(board, x, y);
-                    return go(board);
+                    println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
+                    printAndMarkPos(board, x, y);
+                    return go3(board);
                 }
             }
         }
-        Printer.printLine();
-        System.out.println("Method2Possible.go: Return unfinished result. Iterations: " + super.iteration);
+        printLine();
+        println("Method2Possible.go: Return unfinished result. Iterations: " + super.iteration);
         return board;
-    }
-
-    @Override
-    public int[][] go() {
-        super.result = go(super.original);
-        return super.result;
     }
 }

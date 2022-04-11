@@ -13,7 +13,7 @@ public class Validation {
                 }
             }
         }
-        return isLineValid(board) && isBlockValid(board);
+        return isValid(board);
     }
 
     public static boolean isValid(int[][] board) {
