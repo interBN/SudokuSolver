@@ -41,9 +41,8 @@ public abstract class Method {
                 if (x % 3 == 0) {
                     returner.append("|");
                 }
-                int originalNum = original[y][x];
                 int resultNum = result[y][x];
-                if (originalNum != resultNum) {
+                if (original[y][x] != resultNum) {
                     returner.append(SPACE).append(RED).append(resultNum).append(RESET).append(SPACE);
                 } else {
                     if (resultNum == 0) {
@@ -68,16 +67,12 @@ public abstract class Method {
     }
 
     public int[][] solve() {
-
         Date startDate = new Date();
-
         if (Validation.isFinished(this.original)) {
             return this.original;
         }
-
         this.printLine();
         System.out.println("\u001B[34m" + "Run " + this.name + "\u001B[0m");
-
         int[][] result = this.solve2();
         Date endDate = new Date();
         this.duration = (int) ((endDate.getTime() - startDate.getTime()));

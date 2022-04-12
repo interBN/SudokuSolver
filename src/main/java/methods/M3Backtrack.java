@@ -24,9 +24,6 @@ public class M3Backtrack extends Method {
 
     int[][] solve3(int[][] board, int x, int y) {
         this.iteration++;
-        if (this.print) {
-            this.getComparison(this.original, board);
-        }
         board = this.clone(board);
         int[][] before = this.clone(board);
 
@@ -36,7 +33,7 @@ public class M3Backtrack extends Method {
         }
         this.printLine();
 
-        this.println("I'm here: (" + x + "," + y + ")=" + board[y][x]);
+        this.println("I'm here: (" + x + "," + y + ") = " + board[y][x]);
 
         int newX = x + 1;
         int newY = y;
@@ -48,9 +45,7 @@ public class M3Backtrack extends Method {
             this.println("Skip!");
             return this.solve3(board, newX, newY);
         }
-        int[] possible;
-
-        possible = M2Possible.getPossible(board, x, y, this.print);
+        int[] possible = M2Possible.getPossible(board, x, y, this.print);
 
         if (possible.length == 0) {
             this.println("I'm here: (" + x + "," + y + ") => No possibles: Go back.");
@@ -77,8 +72,7 @@ public class M3Backtrack extends Method {
                 return check;
             }
 
-            boolean isEqual = Arrays.deepEquals(before2, check);
-            if (!isEqual) { // seems ok
+            if (!Arrays.deepEquals(before2, check)) {
                 return check;
             }
 

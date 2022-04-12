@@ -103,17 +103,15 @@ public class M2Possible extends Method {
 
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
-                int num = board[y][x];
-                if (num != 0) {
-                    continue;
-                }
-                this.printLine();
-                int[] possible = getPossible(board, x, y, this.print);
-                if (possible.length == 1) {
-                    board[y][x] = possible[0];
-                    this.println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
-                    this.printAndMarkPos(board, x, y);
-                    return this.solve3(board);
+                if (board[y][x] == 0) {
+                    this.printLine();
+                    int[] possible = getPossible(board, x, y, this.print);
+                    if (possible.length == 1) {
+                        board[y][x] = possible[0];
+                        this.println("\u001B[32m" + "found: " + possible[0] + "\u001B[0m");
+                        this.printAndMarkPos(board, x, y);
+                        return this.solve3(board);
+                    }
                 }
             }
         }

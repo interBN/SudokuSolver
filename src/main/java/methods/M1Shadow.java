@@ -52,15 +52,13 @@ M1Shadow extends Method {
 
     private int[][] xMark(int[][] board, int x, int y) {
         board = this.clone(board);
-        int num = board[y][x];
-        for (int x2 = 0; x2 < 9; x2++) {
-            if (board[y][x2] == 0) {
-                board[y][x2] = num * -1;
+        int mark = board[y][x] * -1;
+        for (int i = 0; i < 9; i++) {
+            if (board[y][i] == 0) {
+                board[y][i] = mark;
             }
-        }
-        for (int y2 = 0; y2 < 9; y2++) {
-            if (board[y2][x] == 0) {
-                board[y2][x] = num * -1;
+            if (board[i][x] == 0) {
+                board[i][x] = mark;
             }
         }
         return board;
@@ -71,8 +69,7 @@ M1Shadow extends Method {
         for (int i = 0; i < 3; i++) {
             outer:
             for (int j = 0; j < 3; j++) {
-                int yNew = i * 3;
-                int xNew = j * 3;
+                int yNew = i * 3, xNew = j * 3;
                 int countZero = 0, foundY = -1, foundX = -1;
                 for (int y = yNew; y <= yNew + 2; y++) {
                     for (int x = xNew; x <= xNew + 2; x++) {

@@ -12,8 +12,14 @@ import static helper.Validation.isValid;
 public class Sudoku {
 
     private final List<Method> methods;
+    private final boolean print;
 
     public Sudoku() {
+        this(false);
+    }
+
+    public Sudoku(boolean print) {
+        this.print = print;
         this.methods = new ArrayList<>();
     }
 
@@ -26,7 +32,7 @@ public class Sudoku {
         }
 
         // step 1
-        Method method1Shadow = new M1Shadow(board);
+        Method method1Shadow = new M1Shadow(board, this.print);
         this.methods.add(method1Shadow);
         int[][] step1 = method1Shadow.solve();
         if (method1Shadow.isComplete) {
@@ -34,7 +40,7 @@ public class Sudoku {
         }
 
         // step 2
-        Method method2Possible = new M2Possible(step1);
+        Method method2Possible = new M2Possible(step1, this.print);
         this.methods.add(method2Possible);
         int[][] step2 = method2Possible.solve();
         if (method2Possible.isComplete) {
@@ -42,7 +48,7 @@ public class Sudoku {
         }
 
         // step 3
-        Method method3Backtrack = new M3Backtrack(step2);
+        Method method3Backtrack = new M3Backtrack(step2, this.print);
         this.methods.add(method3Backtrack);
         return method3Backtrack.solve();
     }

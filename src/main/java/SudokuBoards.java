@@ -1,7 +1,7 @@
 @SuppressWarnings("unused")
 public class SudokuBoards {
 
-    static int[][] error = {
+    final static int[][] error = {
             {1, 1, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -16,7 +16,7 @@ public class SudokuBoards {
     /**
      * Iterations: 1, 1, 392
      */
-    static int[][] veryEasy = {
+    final static int[][] veryEasy = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -31,7 +31,7 @@ public class SudokuBoards {
     /**
      * Iterations: 1, 1, 437
      */
-    static int[][] veryEasy2 = {
+    final static int[][] veryEasy2 = {
             {0, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 1, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0, 0, 2},
@@ -46,7 +46,7 @@ public class SudokuBoards {
     /**
      * Iterations: 10
      */
-    static int[][] easy = {
+    final static int[][] easy = {
             {0, 3, 4, 8, 7, 0, 0, 0, 0},
             {0, 0, 2, 3, 4, 0, 1, 5, 8},
             {1, 8, 0, 2, 0, 0, 0, 0, 0},
@@ -61,7 +61,7 @@ public class SudokuBoards {
     /**
      * Iterations: 20
      */
-    static int[][] easy2 = {
+    final static int[][] easy2 = {
             {7, 0, 0, 0, 0, 0, 2, 0, 0},
             {4, 0, 2, 0, 0, 0, 0, 0, 3},
             {0, 0, 0, 2, 0, 1, 0, 0, 0},
@@ -76,7 +76,7 @@ public class SudokuBoards {
     /**
      * Iterations: 12, 24
      */
-    static int[][] medium = {
+    final static int[][] medium = {
             {3, 0, 6, 5, 0, 8, 4, 0, 0},
             {5, 2, 0, 0, 0, 0, 0, 0, 0},
             {0, 8, 7, 0, 0, 0, 0, 3, 1},
@@ -91,7 +91,7 @@ public class SudokuBoards {
     /**
      * Iterations: 6, 49
      */
-    static int[][] medium2 = {
+    final static int[][] medium2 = {
             {5, 8, 0, 2, 0, 0, 4, 7, 0},
             {0, 2, 0, 0, 0, 0, 0, 3, 0},
             {0, 3, 0, 0, 5, 4, 0, 0, 0},
@@ -106,7 +106,7 @@ public class SudokuBoards {
     /**
      * Iterations: 5, 1, 87
      */
-    static int[][] medium3 = {
+    final static int[][] medium3 = {
             {0, 0, 4, 3, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 9, 1, 0, 4},
             {0, 0, 0, 1, 0, 0, 0, 0, 6},
@@ -121,7 +121,7 @@ public class SudokuBoards {
     /**
      * Iterations: 2, 2, 4982
      */
-    static int[][] hard = {
+    final static int[][] hard = {
             {0, 0, 0, 0, 0, 1, 2, 0, 0},
             {0, 0, 0, 0, 0, 0, 3, 4, 0},
             {0, 0, 0, 2, 0, 0, 0, 5, 6},
@@ -136,7 +136,7 @@ public class SudokuBoards {
     /**
      * Iterations: 1, 1, 2829
      */
-    static int[][] hard2 = {
+    final static int[][] hard2 = {
             {1, 0, 0, 6, 0, 0, 0, 0, 0},
             {0, 2, 0, 0, 0, 0, 9, 0, 0},
             {0, 0, 3, 0, 0, 0, 0, 0, 0},
@@ -152,7 +152,7 @@ public class SudokuBoards {
      * This is the hardest!
      * Iterations: 4, 1, 219749
      */
-    static int[][] evil = {
+    final static int[][] evil = {
             {0, 7, 0, 1, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 8, 0, 4, 0, 0},
             {0, 0, 3, 0, 6, 0, 0, 0, 0},
@@ -167,7 +167,7 @@ public class SudokuBoards {
     /**
      * Iterations: 1, 1, 72097
      */
-    static int[][] evil2 = {
+    final static int[][] evil2 = {
             {8, 0, 0, 0, 0, 0, 0, 0, 0},
             {0, 0, 3, 6, 0, 0, 0, 0, 0},
             {0, 7, 0, 0, 9, 0, 2, 0, 0},
@@ -182,7 +182,7 @@ public class SudokuBoards {
     /**
      * Iterations: 4, 4, 84260
      */
-    static int[][] evil3 = {
+    final static int[][] evil3 = {
             {9, 0, 0, 1, 0, 0, 0, 0, 5},
             {0, 0, 5, 0, 9, 0, 2, 0, 1},
             {8, 0, 0, 0, 4, 0, 0, 0, 0},
@@ -197,7 +197,7 @@ public class SudokuBoards {
     /**
      * Iterations: 2, 1, 12186
      */
-    static int[][] evil4 = {
+    final static int[][] evil4 = {
             {1, 0, 0, 0, 0, 7, 0, 9, 0},
             {0, 3, 0, 0, 2, 0, 0, 0, 8},
             {0, 0, 9, 6, 0, 0, 5, 0, 0},
@@ -212,7 +212,7 @@ public class SudokuBoards {
     /**
      * Iterations: 2, 1, 46997
      */
-    static int[][] evil5 = {
+    final static int[][] evil5 = {
             {0, 0, 9, 2, 0, 0, 0, 0, 3},
             {0, 0, 0, 0, 0, 7, 0, 0, 0},
             {6, 0, 8, 0, 0, 5, 7, 0, 0},
