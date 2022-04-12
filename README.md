@@ -1,6 +1,6 @@
 # SudokuSolver
 
-This is an easy Sudoku Solver that takes < 1 sec to solve any Sudoku game.
+This is an easy Sudoku Solver that takes < 1 sec to solve any Sudoku puzzle.
 
 ## Setup
 
@@ -48,7 +48,7 @@ Have fun.
 | 5  6  9 | 7  1  8 | 2  4  3 |
 ```
 
-Time to complete this game: 484 ms (depends on system).
+Time to complete this puzzle: 484 ms (depends on system).
 
 ## Project Structure
 
