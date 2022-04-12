@@ -4,7 +4,8 @@ import helper.Validation;
 
 import java.util.Arrays;
 
-public class M1Shadow extends Method {
+public class
+M1Shadow extends Method {
 
     public M1Shadow(int[][] original) {
         this(original, false);
@@ -18,6 +19,7 @@ public class M1Shadow extends Method {
     public int[][] solve2() {
         int[][] result = this.solve3(super.result);
         super.result = result;
+        this.printLine();
         return result;
     }
 
@@ -39,10 +41,9 @@ public class M1Shadow extends Method {
                 }
             }
             boardMarked = this.findLonelyFields(boardMarked, num);
-            this.removeMinuses(boardMarked);
-            boolean isEqual = Arrays.deepEquals(before, boardMarked);
-            if (!isEqual) {
-                return this.solve3(boardMarked);
+            int[][] cleaned = this.removeMinuses(boardMarked);
+            if (!Arrays.deepEquals(before, cleaned)) {
+                return this.solve3(cleaned);
             }
         }
         this.println("");
@@ -66,6 +67,7 @@ public class M1Shadow extends Method {
     }
 
     private int[][] findLonelyFields(int[][] board, int searchNum) {
+        board = this.clone(board);
         for (int i = 0; i < 3; i++) {
             outer:
             for (int j = 0; j < 3; j++) {
@@ -97,7 +99,8 @@ public class M1Shadow extends Method {
         return board;
     }
 
-    private void removeMinuses(int[][] board) {
+    private int[][] removeMinuses(int[][] board) {
+        board = this.clone(board);
         for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
                 if (board[y][x] < 0) {
@@ -105,5 +108,6 @@ public class M1Shadow extends Method {
                 }
             }
         }
+        return board;
     }
 }

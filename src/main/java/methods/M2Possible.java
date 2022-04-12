@@ -37,10 +37,6 @@ public class M2Possible extends Method {
             System.out.println(coordinate + ": possible");
             System.out.println(Arrays.toString(intersection));
         }
-//        if (intersection.length == 0) {
-//            helper.Helper.print(board, x, y);
-//            throw new Exception("Sonmething is wrong here!");
-//        }
         return intersection;
     }
 
@@ -48,7 +44,7 @@ public class M2Possible extends Method {
         if (board[y][x] != 0) {
             return new int[0];
         }
-        Set<Integer> tmp = new HashSet<>();
+        Set<Integer> set = new HashSet<>();
         outer:
         for (int i = 1; i <= 9; i++) {
             for (int w = 0; w < 9; w++) {
@@ -61,9 +57,9 @@ public class M2Possible extends Method {
                     continue outer;
                 }
             }
-            tmp.add(i);
+            set.add(i);
         }
-        return tmp.stream().mapToInt(Integer::intValue).toArray();
+        return set.stream().mapToInt(Integer::intValue).toArray();
     }
 
     static int[] getPossibleBlock(int[][] board, int x, int y) {
@@ -98,7 +94,7 @@ public class M2Possible extends Method {
     int[][] solve3(int[][] board) {
         if (Validation.isFinished(board)) {
             this.isComplete = true;
-            this.println("Method2Possible.go: Return finished result. Iterations: " + this.iteration);
+            this.println("Method2Possible.solve3: Return finished result. Iterations: " + this.iteration);
             return board;
         }
         board = this.clone(board);
@@ -122,7 +118,7 @@ public class M2Possible extends Method {
             }
         }
         this.printLine();
-        this.println("Method2Possible.go: Return unfinished result. Iterations: " + this.iteration);
+        this.println("Method2Possible.solve3: Return unfinished result. Iterations: " + this.iteration);
         return board;
     }
 }

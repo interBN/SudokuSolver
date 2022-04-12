@@ -27,8 +27,8 @@ public class Validation {
                 if (num == 0) {
                     continue;
                 }
-                boolean ok = tmp.add(num);
-                if (!ok) {
+                boolean isUnique = tmp.add(num);
+                if (!isUnique) {
                     return false;
                 }
             }
@@ -40,8 +40,8 @@ public class Validation {
                 if (num == 0) {
                     continue;
                 }
-                boolean ok = tmp.add(num);
-                if (!ok) {
+                boolean isUnique = tmp.add(num);
+                if (!isUnique) {
                     return false;
                 }
             }

@@ -8,12 +8,12 @@ import java.util.Date;
 public abstract class Method {
 
     public final String name;
-    final int[][] original;
-    final boolean print;
+    public final int[][] original;
+    public final boolean print;
     public int iteration;
     public long duration;
     public boolean isComplete;
-    int[][] result;
+    public int[][] result;
 
     public Method(int[][] original, String name, boolean print) {
         this.name = name;

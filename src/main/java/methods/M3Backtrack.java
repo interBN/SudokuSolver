@@ -6,8 +6,6 @@ import java.util.Arrays;
 
 public class M3Backtrack extends Method {
 
-    boolean doPrint;
-
     public M3Backtrack(int[][] original) {
         this(original, false);
     }
@@ -26,7 +24,7 @@ public class M3Backtrack extends Method {
 
     int[][] solve3(int[][] board, int x, int y) {
         this.iteration++;
-        if (this.doPrint) {
+        if (this.print) {
             this.getComparison(this.original, board);
         }
         board = this.clone(board);
@@ -36,9 +34,9 @@ public class M3Backtrack extends Method {
             this.isComplete = true;
             return board;
         }
-        if (this.doPrint) this.printLine();
+        this.printLine();
 
-        this.println("I'm here: [" + x + "," + y + "]=" + board[y][x]);
+        this.println("I'm here: (" + x + "," + y + ")=" + board[y][x]);
 
         int newX = x + 1;
         int newY = y;
@@ -52,10 +50,10 @@ public class M3Backtrack extends Method {
         }
         int[] possible;
 
-        possible = M2Possible.getPossible(board, x, y, this.doPrint);
+        possible = M2Possible.getPossible(board, x, y, this.print);
 
         if (possible.length == 0) {
-            this.println("I'm here: [" + x + "," + y + "]=> No possibles: Go back.");
+            this.println("I'm here: (" + x + "," + y + ") => No possibles: Go back.");
             return before;
         }
 
@@ -67,9 +65,9 @@ public class M3Backtrack extends Method {
             int[][] before2 = this.clone(board);
 
             if (i == 0) {
-                this.println("try: " + checkNum + " from: " + Arrays.toString(possible));
+                this.println("try: " + checkNum + " from " + Arrays.toString(possible));
             } else {
-                this.println("try next: " + checkNum + " from: " + Arrays.toString(possible));
+                this.println("try next: " + checkNum + " from " + Arrays.toString(possible));
             }
 
             int[][] check = this.solve3(board, newX, newY);
@@ -84,14 +82,11 @@ public class M3Backtrack extends Method {
                 return check;
             }
 
-            if (this.doPrint) this.printLine();
+            this.printLine();
             this.println("I'm back here: [" + x + "," + y + "]");
-//            if (checkNum != possible[possible.length - 1]) {
-//                println("=> try next number");
-//            }
         }
 
-        this.println("Go back 2.");
+        this.println("End of method => Go back.");
         return before;
     }
 }

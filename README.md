@@ -10,7 +10,11 @@ Clone project:
 git clone https://github.com/interBN/SudokuSolver.git
 ```
 
-Run [Client](src/main/java/Client.java). U r welcome.
+Use Java >=8.
+
+Run the [Client](src/main/java/Client.java).
+
+Have fun.
 
 ## Before
 
@@ -43,3 +47,7 @@ Run [Client](src/main/java/Client.java). U r welcome.
 | 5  4  6 | 2  1  7 | 9  3  8 |
 | 3  8  1 | 9  6  4 | 5  7  2 |
 ```
+
+## Project Structure
+
+![UML](./uml.png)
